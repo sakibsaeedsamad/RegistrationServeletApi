@@ -126,9 +126,13 @@ public class UserApi extends HttpServlet {
                 json.put("address", outModel.getAddress());
                 json.put("gender", outModel.getGender());
                 json.put("role", outModel.getRole());
+                json.put("age", outModel.getAge());
                 
-                json.put("errorCode", outModel.getErrorCode());
-                json.put("errorMessage", outModel.getErrorMessage());
+                
+                
+                
+                json.put("errorCode", "N");
+                json.put("errorMessage", "Error Occured");
 
                 System.out.println("User Insert Json " + json);
                 response.addHeader("Access-Control-Allow-Origin", "*");
@@ -141,6 +145,7 @@ public class UserApi extends HttpServlet {
             }
 
         }
+        
     }
 
     /**

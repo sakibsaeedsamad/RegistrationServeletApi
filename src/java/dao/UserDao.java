@@ -7,8 +7,14 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import model.User;
 import util.DBConnectionHandler;
+ import java.util.Date;  
 
 /**
  *
@@ -16,9 +22,21 @@ import util.DBConnectionHandler;
  */
 public class UserDao {
     
-      public User insertUserData(User user) {
+      public User insertUserData(User user) throws ParseException {
         User outModel = new User();
         Connection oConn = null;
+        
+                        
+               
+                
+   
+          
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+        LocalDate bDate = LocalDate.parse(user.getDob(), formatter);
+        LocalDate now = LocalDate.now();
+        long userAge = ChronoUnit.YEARS.between(bDate, now);
+        System.out.println(userAge);
+          
 
         try {
 //            Class.forName("com.mysql.jdbc.Driver");
@@ -46,9 +64,10 @@ public class UserDao {
             outModel.setGender(user.getGender());
             outModel.setAddress(user.getAddress());
             outModel.setRole(user.getRole());
+            outModel.setAge(Long.toString(userAge));
             
-            outModel.setErrorCode("N");
-            outModel.setErrorMessage("User Inserted Successfully");
+//            outModel.setErrorCode("N");
+//            outModel.setErrorMessage("User Inserted Successfully");
 
         } catch (Exception e) {
             e.printStackTrace();

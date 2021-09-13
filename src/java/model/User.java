@@ -17,6 +17,7 @@ public class User {
     private String gender = "";
     private String address = "";
     private String role = "";
+    private String age = "";
     
     
     private String errorMessage = "";
@@ -93,6 +94,15 @@ public class User {
     public void setErrorCode(String errorCode) {
         this.errorCode = errorCode;
     }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+    
     
  
     
