@@ -21,23 +21,23 @@ public class UserDao {
         Connection oConn = null;
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            oConn = DBConnectionHandler.getConVentionalConnection();
+//            Class.forName("com.mysql.jdbc.Driver");
+//            oConn = DBConnectionHandler.getConVentionalConnection();
+//
+//            String sql = "INSERT INTO registrationservletdb.user (name,mobile,email,dob,gender,address,role) VALUES (?,?,?,?,?,?,?)";
+//
+//            PreparedStatement ps = oConn.prepareStatement(sql);
+//
+//            ps.setString(1, user.getName());
+//            ps.setString(2, user.getMobile());
+//            ps.setString(3, user.getEmail());
+//            ps.setString(4, user.getDob());
+//            ps.setString(5, user.getGender());
+//            ps.setString(6, user.getAddress());
+//            ps.setString(7, user.getRole());
 
-            String sql = "INSERT INTO registrationservletdb.user (name,mobile,email,dob,gender,address,role) VALUES (?,?,?,?,?,?,?)";
-
-            PreparedStatement ps = oConn.prepareStatement(sql);
-
-            ps.setString(1, user.getName());
-            ps.setString(2, user.getMobile());
-            ps.setString(3, user.getEmail());
-            ps.setString(4, user.getDob());
-            ps.setString(5, user.getGender());
-            ps.setString(6, user.getAddress());
-            ps.setString(7, user.getRole());
-
-            ps.executeUpdate();
-            System.out.println("sql = " + sql);
+            //ps.executeUpdate();
+            //System.out.println("sql = " + sql);
 
             outModel.setName(user.getName());
             outModel.setMobile(user.getMobile());
@@ -48,7 +48,7 @@ public class UserDao {
             outModel.setRole(user.getRole());
             
             outModel.setErrorCode("N");
-            outModel.setErrorMessage("Amount inserted in the account Successfully");
+            outModel.setErrorMessage("User Inserted Successfully");
 
         } catch (Exception e) {
             e.printStackTrace();
