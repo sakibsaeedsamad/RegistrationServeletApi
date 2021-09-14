@@ -5,6 +5,7 @@
  */
 package api;
 
+import dao.GenderDao;
 import dao.RoleDao;
 import dao.UserDao;
 import java.io.IOException;
@@ -20,6 +21,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Gender;
 import model.Role;
 import model.User;
 import org.json.JSONArray;
@@ -49,7 +51,7 @@ public class UserApi extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UserApi</title>");            
+            out.println("<title>Servlet UserApi</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet UserApi at " + request.getContextPath() + "</h1>");
@@ -84,9 +86,8 @@ public class UserApi extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       // processRequest(request, response);
-       
-       
+        // processRequest(request, response);
+
         String requestCode = request.getParameter("requestCode");
         System.out.println("requestCode = " + requestCode);
 
@@ -105,12 +106,9 @@ public class UserApi extends HttpServlet {
             System.out.println("address = " + address);
             String role = request.getParameter("role");
             System.out.println("role = " + role);
-            
-            
-            
 
             User user = new User();
-            
+
             user.setName(name);
             user.setMobile(mobile);
             user.setEmail(email);
@@ -118,8 +116,6 @@ public class UserApi extends HttpServlet {
             user.setGender(gender);
             user.setAddress(address);
             user.setRole(role);
-
-           
 
             try {
                 JSONObject json = new JSONObject();
@@ -134,10 +130,7 @@ public class UserApi extends HttpServlet {
                 json.put("gender", outModel.getGender());
                 json.put("role", outModel.getRole());
                 json.put("age", outModel.getAge());
-                
-                
-                
-                
+
                 json.put("errorCode", "N");
                 json.put("errorMessage", "Error Occured");
 
@@ -151,37 +144,61 @@ public class UserApi extends HttpServlet {
                 Logger.getLogger(UserApi.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-        }
-        
-        else if ("2".equals(requestCode)) {
-            //Role role = new Role();
-             try {
-                List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-                JSONObject json = new JSONObject();
+        } else if ("2".equals(requestCode)) {
+            
+            try {
+
+                JSONArray jsonArray = new JSONArray();
+
                 RoleDao roleDao = new RoleDao();
                 for (Role role : roleDao.getRoleTypes(requestCode)) {
-                    Map<String, Object> map = new HashMap<String, Object>();
-                    map.put("code", role.getCode());
-                    map.put("desc", role.getDesc());
-                    list.add(map);
-                    json.put("roleList", list);
+
+                    JSONObject json = new JSONObject();
+                    json.put("code", role.getCode());
+                    json.put("desc", role.getDesc());
+                    jsonArray.put(json);
 
                 }
-               
 
-                
-                System.out.println("Roll List: " + json);
+                System.out.println("Role List: " + jsonArray);
                 response.addHeader("Access-Control-Allow-Origin", "*");
                 response.setContentType("application/json");
                 response.setCharacterEncoding("UTF-8");
-                response.getWriter().print(json.toString());
+                response.getWriter().print(jsonArray.toString());
                 response.getWriter().flush();
             } catch (Exception ex) {
                 Logger.getLogger(UserApi.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }
-        
+        else if ("3".equals(requestCode)) {
+            
+            try {
+
+                JSONArray jsonArray = new JSONArray();
+
+                GenderDao genderDao = new GenderDao();
+                for (Gender gender : genderDao.getGender(requestCode)) {
+
+                    JSONObject json = new JSONObject();
+                    json.put("genCode", gender.getGenCode());
+                    json.put("genDesc", gender.getGenDesc());
+                    jsonArray.put(json);
+
+                }
+
+                System.out.println("Gender List: " + jsonArray);
+                response.addHeader("Access-Control-Allow-Origin", "*");
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().print(jsonArray.toString());
+                response.getWriter().flush();
+            } catch (Exception ex) {
+                Logger.getLogger(UserApi.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+
     }
 
     /**

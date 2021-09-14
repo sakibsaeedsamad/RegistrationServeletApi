@@ -10,29 +10,32 @@ import java.sql.PreparedStatement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import model.User;
 import util.DBConnectionHandler;
- import java.util.Date;  
+import java.util.Date;
 
 /**
  *
  * @author Sakib
  */
 public class UserDao {
-    
-      public User insertUserData(User user) throws ParseException {
+
+    public User insertUserData(User user) throws ParseException {
         User outModel = new User();
         Connection oConn = null;
-        
-        
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy");
         LocalDate bDate = LocalDate.parse(user.getDob(), formatter);
         LocalDate now = LocalDate.now();
-        long userAge = ChronoUnit.YEARS.between(bDate, now);
+        //long userAge = ChronoUnit.YEARS.between(bDate, now
+
+        Period userAge = Period.between(bDate, now);
+        
+        System.out.println(userAge.getYears() + "years" + userAge.getMonths() + "months" + userAge.getDays() + "days");
         System.out.println(userAge);
-          
 
         try {
 //            Class.forName("com.mysql.jdbc.Driver");
@@ -52,7 +55,6 @@ public class UserDao {
 
             //ps.executeUpdate();
             //System.out.println("sql = " + sql);
-
             outModel.setName(user.getName());
             outModel.setMobile(user.getMobile());
             outModel.setEmail(user.getEmail());
@@ -60,11 +62,11 @@ public class UserDao {
             outModel.setGender(user.getGender());
             outModel.setAddress(user.getAddress());
             outModel.setRole(user.getRole());
-            outModel.setAge(Long.toString(userAge));
-            
+            //outModel.setAge(Long.toString(userAge));
+           outModel.setAge(userAge.getYears() + "years" + userAge.getMonths() + "months" + userAge.getDays() + "days");
+
 //            outModel.setErrorCode("N");
 //            outModel.setErrorMessage("User Inserted Successfully");
-
         } catch (Exception e) {
             e.printStackTrace();
 
@@ -76,5 +78,5 @@ public class UserDao {
         return outModel;
 
     }
-    
+
 }
