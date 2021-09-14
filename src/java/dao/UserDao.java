@@ -26,12 +26,8 @@ public class UserDao {
         User outModel = new User();
         Connection oConn = null;
         
-                        
-               
-                
-   
-          
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+        
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy");
         LocalDate bDate = LocalDate.parse(user.getDob(), formatter);
         LocalDate now = LocalDate.now();
         long userAge = ChronoUnit.YEARS.between(bDate, now);

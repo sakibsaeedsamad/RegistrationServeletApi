@@ -5,9 +5,14 @@
  */
 package api;
 
+import dao.RoleDao;
 import dao.UserDao;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -15,7 +20,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Role;
 import model.User;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -135,6 +142,35 @@ public class UserApi extends HttpServlet {
                 json.put("errorMessage", "Error Occured");
 
                 System.out.println("User Insert Json " + json);
+                response.addHeader("Access-Control-Allow-Origin", "*");
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().print(json.toString());
+                response.getWriter().flush();
+            } catch (Exception ex) {
+                Logger.getLogger(UserApi.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+        
+        else if ("2".equals(requestCode)) {
+            //Role role = new Role();
+             try {
+                List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+                JSONObject json = new JSONObject();
+                RoleDao roleDao = new RoleDao();
+                for (Role role : roleDao.getRoleTypes(requestCode)) {
+                    Map<String, Object> map = new HashMap<String, Object>();
+                    map.put("code", role.getCode());
+                    map.put("desc", role.getDesc());
+                    list.add(map);
+                    json.put("roleList", list);
+
+                }
+               
+
+                
+                System.out.println("Roll List: " + json);
                 response.addHeader("Access-Control-Allow-Origin", "*");
                 response.setContentType("application/json");
                 response.setCharacterEncoding("UTF-8");
