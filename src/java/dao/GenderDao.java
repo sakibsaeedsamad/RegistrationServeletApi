@@ -6,6 +6,8 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.Period;
@@ -13,6 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import model.Gender;
+import model.Role;
 import model.User;
 import util.DBConnectionHandler;
 
@@ -26,20 +29,24 @@ public class GenderDao {
         Connection oConn = null;
 
         try {
+            
+            Class.forName("com.mysql.jdbc.Driver");
+            oConn = DBConnectionHandler.getConVentionalConnection();
+            String sql = "SELECT * FROM registrationservletdb.gender ";
+            PreparedStatement ps = oConn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            System.out.println("sql = " + sql);
+            
+             while (rs.next()) {
 
             Gender model = new Gender();
-            Gender model1 = new Gender();
             
-
-            model.setGenCode("1");
-            model.setGenDesc("Female");
-
-            model1.setGenCode("2");
-            model1.setGenDesc("Male");
-
-            
+            model.setGenCode(rs.getString("gencode"));
+            model.setGenDesc(rs.getString("gendesc"));
             list.add(model);
-            list.add(model1);
+            
+             }
+
         } catch (Exception e) {
             e.printStackTrace();
 

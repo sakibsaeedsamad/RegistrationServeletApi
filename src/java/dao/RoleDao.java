@@ -24,27 +24,22 @@ public class RoleDao {
         Connection oConn = null;
 
         try {
+            Class.forName("com.mysql.jdbc.Driver");
+            oConn = DBConnectionHandler.getConVentionalConnection();
+            String sql = "SELECT * FROM registrationservletdb.role ";
+            PreparedStatement ps = oConn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            System.out.println("sql = " + sql);
+            
+             while (rs.next()) {
 
             Role model = new Role();
-            Role model1 = new Role();
-            Role model2 = new Role();
-            Role model3 = new Role();
-
-            model.setCode("1");
-            model.setDesc("Trainee Software Engineer");
-
-            model1.setCode("2");
-            model1.setDesc("Assistant Software Engineer");
-
-            model2.setCode("3");
-            model2.setDesc("Jr Software Engineer");
-            model3.setCode("4");
-            model3.setDesc("Software Engineer");
-
+            
+            model.setCode(rs.getString("code"));
+            model.setDesc(rs.getString("desc"));
             list.add(model);
-            list.add(model1);
-             list.add(model2);
-            list.add(model3);
+            
+             }
 
         } catch (Exception e) {
             e.printStackTrace();

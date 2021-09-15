@@ -132,7 +132,7 @@ public class UserApi extends HttpServlet {
                 json.put("age", outModel.getAge());
 
                 json.put("errorCode", "N");
-                json.put("errorMessage", "Error Occured");
+                json.put("errorMessage", "Data Inserted");
 
                 System.out.println("User Insert Json " + json);
                 response.addHeader("Access-Control-Allow-Origin", "*");
@@ -188,6 +188,42 @@ public class UserApi extends HttpServlet {
                 }
 
                 System.out.println("Gender List: " + jsonArray);
+                response.addHeader("Access-Control-Allow-Origin", "*");
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().print(jsonArray.toString());
+                response.getWriter().flush();
+            } catch (Exception ex) {
+                Logger.getLogger(UserApi.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+        
+        else if ("4".equals(requestCode)) {
+            
+            try {
+
+                JSONArray jsonArray = new JSONArray();
+
+                UserDao userDao = new UserDao();
+                for (User user : userDao.getAllUser(requestCode)) {
+
+                    JSONObject json = new JSONObject();
+                    json.put("name", user.getName());
+                    json.put("mobile", user.getMobile());
+                    json.put("email", user.getEmail());
+                    json.put("age", user.getAge());
+                    json.put("address", user.getAddress());
+                    json.put("gender", user.getGender());
+                    json.put("role", user.getRole());
+                    json.put("dob", user.getDob());
+                    json.put("roledesc",user.getRoleDesc());
+                    
+                    jsonArray.put(json);
+
+                }
+
+                System.out.println("User List: " + jsonArray);
                 response.addHeader("Access-Control-Allow-Origin", "*");
                 response.setContentType("application/json");
                 response.setCharacterEncoding("UTF-8");

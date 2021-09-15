@@ -18,6 +18,16 @@ public class User {
     private String address = "";
     private String role = "";
     private String age = "";
+    private String roleDesc = "";
+
+    public String getRoleDesc() {
+        return roleDesc;
+    }
+
+    public void setRoleDesc(String roleDesc) {
+        this.roleDesc = roleDesc;
+    }
+    
     
     
     private String errorMessage = "";
